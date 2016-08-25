@@ -77,11 +77,11 @@ object Util {
   }
 
   implicit class TraversableUtil[T](traversable: Traversable[T]) {
-    def equals(traversable2: Traversable[T], f: ((T, T)) => Boolean) = traversable.size match {
+    def equals(traversable2: Traversable[T], f: (T, T) => Boolean) = traversable.size match {
       case x if x == traversable2.size => traversable.equalsIgnoreSize(traversable2, f)
       case _ => false
     }
-    def equalsIgnoreSize(traversable2: Traversable[T], f: ((T, T)) => Boolean) = traversable.toIterable.zip(traversable2.toIterable).forall(f)
+    def equalsIgnoreSize(traversable2: Traversable[T], f: (T, T) => Boolean) = traversable.toIterable.zip(traversable2.toIterable).forall(pair => f(pair._1, pair._2))
   }
 
 }
