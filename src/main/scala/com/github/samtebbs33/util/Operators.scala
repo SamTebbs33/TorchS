@@ -14,7 +14,7 @@ object Operators {
     def ?:(right: Boolean) = bool.?: (() => right)
   }
 
-  implicit class ComparableUtil[T](comp: _ <: Comparable[T]) {
+  implicit class ComparableUtil[T](comp: Comparable[T]) {
     def <=>(t: T) = comp.compareTo(t)
   }
 
