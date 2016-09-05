@@ -8,9 +8,40 @@ import java.util.Objects
 object Operators {
 
   implicit class BooleanUtil(bool: Boolean) {
+    /**
+      * Ternary operator. Does not evaluate right if boolean is true (short-circuiting)
+      * @param left returned if true
+      * @param right returned if false
+      * @tparam T inferred as common type of left and right
+      * @return
+      * @example true ? (() => "x", () => "y") // "x"
+      * @example false ? (() => "x", () => "y") // "y"
+      */
     def ?[T](left: () => T, right: () => T) = if(bool) left() else right()
+
+    /**
+      * Non short-circuiting version of ?
+      * @param left returned if true
+      * @param right returned if false
+      * @tparam T inferred as common type of left and right
+      * @return
+      * @example true ? ("x", "y") // "x"
+      * @example false ? ("x", "y") // "y"
+      */
     def ?[T](left: T, right: T) = bool ? (() => left, () => right)
+
+    /**
+      * Boolean elvis operator. Returns true if boolean is true, else returns argument.
+      * @param right argument to return if boolean is not true
+      * @return
+      */
     def ?:(right: () => Boolean) = bool ? (bool, right())
+
+    /**
+      * Non short-circuiting version of ?:
+      * @param right argument to return if boolean is not true
+      * @return
+      */
     def ?:(right: Boolean) = bool.?: (() => right)
   }
 
