@@ -8,8 +8,10 @@ import java.util.Objects
 object Operators {
 
   implicit class BooleanUtil(bool: Boolean) {
-    def ?[T](left: T, right: T) = if(bool) left else right
-    def ?:(right: Boolean) = bool ? (bool, right)
+    def ?[T](left: () => T, right: () => T) = if(bool) left() else right()
+    def ?[T](left: T, right: T) = bool ? (() => left, () => right)
+    def ?:(right: () => Boolean) = bool ? (bool, right())
+    def ?:(right: Boolean) = bool.?: (() => right)
   }
 
   implicit class ComparableUtil[T](comp: _ <: Comparable[T]) {
